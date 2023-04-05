@@ -1,0 +1,84 @@
+{
+  "blogs": [
+    {
+      "title": "My First Blog",
+      "body": "Body1",
+      "progress": "ongoing",
+      "contributors": "AJ1",
+      "id": 1
+    },
+    {
+      "title": "My Second Blog",
+      "body": "Body2",
+      "progress": "done",
+      "contributors": "AJ2",
+      "id": 2
+    },
+    {
+      "title": "TEST",
+      "body": "TEST",
+      "progress": "ongoing",
+      "contributors": "TEST",
+      "id": 11
+    },
+    {
+      "title": "test",
+      "body": "test",
+      "progress": "done",
+      "contributors": "test",
+      "id": 12
+    }
+  ],
+  "projects": [
+    {
+      "title": "My First project",
+      "date": "2/3/2022",
+      "description": "first project",
+      "image": "http://cdn.akc.org/content/hero/cute_puppies_hero.jpg",
+      "link": "http://cdn.akc.org/content/hero/cute_puppies_hero.jpg",
+      "progress": "ongoing",
+      "contributors": "AJ1",
+      "id": 1
+    },
+    {
+      "title": "Project 2",
+      "date": "Project 2",
+      "description": "Project 2",
+      "image": "Project 2",
+      "link": "Project 2",
+      "contributors": "Project 2",
+      "progress": "",
+      "id": 2
+    },
+    {
+      "title": "Project 3",
+      "date": "Project 3",
+      "description": "Project 3",
+      "image": "Project 3",
+      "link": "Project 3",
+      "contributors": "Project 3",
+      "progress": "",
+      "id": 3
+    },
+    {
+      "title": "Project 4",
+      "date": "Project 4",
+      "description": "Project 4",
+      "image": "Project 4",
+      "link": "Project 4",
+      "contributors": "Project 4",
+      "progress": "",
+      "id": 4
+    },
+    {
+      "title": "PROJECT 5",
+      "date": "PROJECT 5",
+      "description": "PROJECT 5",
+      "image": "PROJECT 5",
+      "link": "PROJECT 5",
+      "contributors": "PROJECT 5",
+      "progress": "ongoing",
+      "id": 6
+    }
+  ]
+}
