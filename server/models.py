@@ -6,7 +6,7 @@ from sqlalchemy.orm import validates
 from config import db, bcrypt
 
 
-# ADD Validators!! CheckContraint too??? Email ???
+# ADD Validators!! Email ???
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
@@ -57,14 +57,15 @@ class Project(db.Model, SerializerMixin):
     serialize_rules = ('-user_projects.user', '-user_projects.project')
 
     id = db.Column(db.Integer, primary_key=True)
+    date = db.Column(db.String)
     title = db.Column(db.String)
     description = db.Column(db.String)
     link = db.Column(db.String)
     # Constraint defined at the Column level
-    # image = db.Column(db.String, 
-    #                   db.CheckConstraint(''),
-    #                   nullable=False)
-    image = db.Column(db.String)
+    image = db.Column(db.String, 
+                      db.CheckConstraint(''),
+                      nullable=False)
+    # image = db.Column(db.String)
     contributors = db.Column(db.String)
     progress = db.Column(db.String)
     created_at = db.Column(db.DateTime, server_default=db.func.now())
