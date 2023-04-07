@@ -5,12 +5,14 @@ from app import app
 from models import db, User, Project, Blog, UserProject
 
 import json
-import requests
+# import requests
 
 fake = Faker()
 
 def make_users():
     User.query.delete()
+
+    print("Seeding users...")
 
     users = []
     for i in range(2):
@@ -21,15 +23,50 @@ def make_users():
     db.session.commit()
 
 def make_projects():
-    pass
+    Project.query.delete()
+
+    print("Seeding projects...")
+
+    projects = []
+
+    for i in range(4):
+        project = Project(
+            title = fake.catch_phrase(),
+            description = fake.sentence(nb_words = 5),
+            # image = faker doesn't have actual images,
+            # link
+            # contributors
+            # progress
+        )
+        projects.append(project)
+    db.session.add_all(projects)
+    db.session.commit()
 
 def make_blogs():
-    pass
+    Blog.query.delete()
+
+    print("Seeding blogs...")    
+
+    blogs = []
+    for i in range (4):
+        blog = Blog(
+            # title =,
+            # body =,
+            # contributor =,
+            # progress =
+        )
+        blogs.append(blog)
+    db.session.add_all(blogs)
+    db.session.commit()
 
 def make_user_projects():
     UserProject.query.delete()
+    # with_entities method to specify the fields that should be included
+    # in the query result. In this case, it includes only the "id" field.
     users = User.query.with_entities(User.id).all()
     projects = Project.query.with_entities(Project.id).all()
+
+    print("Seeding user_projects...")
 
     user_projects = []
     
@@ -42,6 +79,8 @@ def make_user_projects():
 
     db.session.add_all(user_projects)
     db.session.commit()  
+
+print('Seeding complete.')
 
 if __name__ == '__main__':
     with app.app_context():
