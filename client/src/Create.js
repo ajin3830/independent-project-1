@@ -7,7 +7,7 @@ function Create ({user}) {
     const [title, setTitle] = useState('')
     const [body, setBody] = useState('')
     const [contributor, setContributor] = useState('')
-    const [progress, setProgress] = useState('')
+    const [progress, setProgress] = useState('Ongoing')
     const [loading, setLoading] = useState(false)
     let navigate = useNavigate()
 

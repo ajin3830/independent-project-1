@@ -5,7 +5,7 @@ import {useNavigate} from "react-router-dom";
 function Project({user}) {
 
     const [loading, setLoading] = useState(false)
-    const [progress, setProgress] = useState('')
+    const [progress, setProgress] = useState('Ongoing')
     
     let navigate = useNavigate()
     
@@ -20,7 +20,7 @@ function Project({user}) {
         description: "", 
         image: "", 
         link: "",
-        contribubtors: "",
+        contributors: "",
     }
     const [projectData, setProjectData] = useState(initialValues)
 

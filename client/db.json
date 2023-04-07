@@ -50,25 +50,11 @@
       "id": 2
     },
     {
-      "title": "TEST",
-      "body": "TEST",
-      "progress": "ongoing",
-      "contributors": "TEST",
-      "id": 11
-    },
-    {
-      "title": "test",
-      "body": "test",
+      "title": "MY 3rd BLOG",
+      "body": "MY 3rd BLOG",
+      "contributor": "MY 3rd BLOG",
       "progress": "done",
-      "contributors": "test",
-      "id": 12
-    },
-    {
-      "title": "test10",
-      "body": "test10",
-      "contributor": "test10",
-      "progress": "",
-      "id": 13
+      "id": 3
     }
   ],
   "projects": [
@@ -81,26 +67,6 @@
       "progress": "ongoing",
       "contributors": "AJ1",
       "id": 1
-    },
-    {
-      "title": "Project 2",
-      "date": "Project 2",
-      "description": "Project 2",
-      "image": "Project 2",
-      "link": "Project 2",
-      "contributors": "Project 2",
-      "progress": "",
-      "id": 2
-    },
-    {
-      "title": "Project 3",
-      "date": "Project 3",
-      "description": "Project 3",
-      "image": "Project 3",
-      "link": "Project 3",
-      "contributors": "Project 3",
-      "progress": "",
-      "id": 3
     },
     {
       "title": "Project 4",
@@ -121,6 +87,16 @@
       "contributors": "PROJECT 5",
       "progress": "ongoing",
       "id": 6
+    },
+    {
+      "title": "PROJECT 6",
+      "date": "PROJECT 6",
+      "description": "PROJECT 6",
+      "image": "",
+      "link": "PROJECT 6",
+      "contributors": "PROJECT 6",
+      "progress": "done",
+      "id": 9
     }
   ]
 }
