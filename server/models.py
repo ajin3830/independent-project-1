@@ -44,7 +44,7 @@ class User(db.Model, SerializerMixin):
             self._password_hash, password.encode('utf-8'))
 
     def __repr__(self):
-        return f'<User {self.name}>'
+        return f'<User {self.username}>'
 
 class Project(db.Model, SerializerMixin):
     __tablename__ = 'projects'
@@ -105,4 +105,4 @@ class UserProject(db.Model, SerializerMixin):
     created_at = db.Column(db.DateTime, server_default=db.func.now())
 
     def __repr__(self):
-        return f'<Blog {self.title}>'
+        return f'<Blog {self.id}>'

@@ -9,19 +9,31 @@ from models import db, User, Project, Blog, UserProject
 # /signup
 @app.route('/signup', methods=['POST'])
 def signup():
-    username = request.get_json('username')
-    password = request.get_json('password')
+    # request.get_json() parses JSON of POST request 
+    # sent from the frontend, returning a dictionary
+    # get('key') returns the value associated with the key
+    # camel case inside get('') if needed
+    
+    # Here, the confirmPassword field from the frontend 
+    # maps to the confirm_password variable in the Flask route 
+    # using request.get_json().get('confirmPassword').
+    username = request.get_json().get('username')
+    password = request.get_json().get('password')
+    confirm_password = request.get_json().get('confirmPassword')
 
-    if username and password:
-        new_user = User(username=username)
-        new_user.password_hash = password
+    if username and password and confirm_password:
+        if password == confirm_password:
+            # Create a new User instance with the retrieved values
+            new_user = User(username=username)
+            new_user.password_hash = password
 
-        db.session.add(new_user)
-        db.session.commit()
+            db.session.add(new_user)
+            db.session.commit()
 
-        session['user_id'] = new_user.id
-        return new_user.to_dict(), 201
-    return {'error': '422 Unprocessable Entity'}, 422
+            session['user_id'] = new_user.id
+            return new_user.to_dict(), 201
+        return {'message': 'Passwords do not match'}, 422
+    return {'message': 'Username, password, and confirm password are required'}, 422
 
 # /login
 @app.route('/login', methods=['POST'])
@@ -34,23 +46,23 @@ def login():
         if user.authenticate(password):
             session['user_id'] = user.id
             return user.to_dict(), 200
-    return {'error': '401: Unauthorized'}, 401
+    return {'message': '401: Unauthorized'}, 401
     
 # /check_session
 @app.route('/check_session', methods=['GET'])
 def check_session():
-    # if session.get('user_id'):
-    if session['user_id']:
+    if session.get('user_id'):
+    # if session['user_id']:
         user = User.query.filter_by(id=session['user_id']).first()
         if user:
-            return user.to_dict, 200
+            return user.to_dict(), 200
     return {'message': '401: Unauthorized'}, 401
 
 # /logout
 @app.route('/logout', methods=['DELETE'])
 def logout():
-    #if session.get('user_id'):
-    if session['user_id']:
+    if session.get('user_id'):
+    # if session['user_id']:
         session['user_id'] = None
         return {'message': '204: No Content'}, 204
     return {'message': '401: Unauthorized'}, 401
@@ -139,7 +151,6 @@ def blogs():
                 contributor = request.get_json()['contributor'],
                 progress = request.get_json()['progress'],
                 # when posting a new blog, add its user id
-                # new_blog.users.id= session['user_id']
                 user_id = session['user_id']
             )
             db.session.add(new_blog)

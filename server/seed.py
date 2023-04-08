@@ -15,12 +15,21 @@ def make_users():
 
     print("Seeding users...")
 
-    users = []
-    for i in range(2):
-        user = User(username = fake.simple_profile()['username'])
-        user.password_hash = user.username + 'password'
-        users.append(user)
-    db.session.add_all(users)
+    # users = []
+    # for i in range(4):
+    #     user = User(username = fake.simple_profile()['username'])
+    #     user.password_hash = user.username + 'password'
+    #     users.append(user)
+    #     # print(users)
+    # db.session.add_all(users)
+    # db.session.commit()
+
+    # LOGIN works, SIGNUP works 
+    test_user = User(
+        username = 'TEST'
+    )
+    test_user.password_hash = test_user.username + '123456'
+    db.session.add(test_user)
     db.session.commit()
 
 def make_projects():
