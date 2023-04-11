@@ -3,7 +3,8 @@ import useFetch from './useFetch'
 
 function BlogDetails ({editBlog, setEditBlog}) {
     const {id} =useParams()
-    const {data:blog, error, loading} = useFetch(`http://localhost:8000/blogs/${id}`)
+    const {data:blog, error, loading} = useFetch(`/blogs/${id}`)
+    // const {data:blog, error, loading} = useFetch(`http://localhost:8000/blogs/${id}`)
 
     let navigate = useNavigate() 
 
@@ -27,7 +28,7 @@ function BlogDetails ({editBlog, setEditBlog}) {
     // }
     
     function handleDelete () {
-        fetch(`http://localhost:8000/blogs/${blog.id}`, {
+        fetch(`/blogs/${blog.id}`, {
             method:'DELETE'
         })
         .then(redirectHome())

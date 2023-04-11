@@ -6,16 +6,33 @@ import Account from './Account'
 import Project from './Project'
 import ProjectDetails from './ProjectDetails'
 import NotFound from './NotFound'
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-// import {useState, useEffect} from 'react'
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import {useState, useEffect} from 'react'
 
 
 function App() {
+  const [user, setUser] = useState(null)
+
+  // user remains logged in
+  useEffect(() => {
+    fetch("/check_session")
+    .then((r) => {
+      // console.log(r)
+      if (r.ok) {
+        r.json()
+        .then((user) => {setUser(user)});
+      }
+    });
+  }, []);
+
+  function onLogout() {
+    setUser(null)
+  }
 
   return (
     <Router>
       <div className="App">
-        <Navbar />
+        <Navbar user={user} onLogout={onLogout}/>
         <div className='content'>
           <Routes>
             <Route 
@@ -27,7 +44,7 @@ function App() {
             // create a blog
               exact
               path="/create"
-              element= {<Create />}
+              element= {<Create user={user} />}
             /> 
             <Route 
               exact
@@ -38,7 +55,7 @@ function App() {
             // create a project
               exact
               path="/project"
-              element= {<Project />}
+              element= {<Project user={user} />}
             /> 
             <Route 
               exact
@@ -48,7 +65,7 @@ function App() {
             <Route 
               exact
               path="/account"
-              element= {<Account />}
+              element= {<Account user={user} setUser={setUser}/>}
             /> 
             <Route 
               path="*"

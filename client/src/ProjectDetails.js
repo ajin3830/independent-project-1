@@ -3,7 +3,8 @@ import useFetch from './useFetch'
 
 function ProjectDetails ({editProject, setEditProject}) {
     const {id} =useParams()
-    const {data:project, error, loading} = useFetch(`http://localhost:8000/projects/${id}`)
+    // const {data:project, error, loading} = useFetch(`http://localhost:8000/projects/${id}`)
+    const {data:project, error, loading} = useFetch(`/projects/${id}`)
 
     let navigate = useNavigate() 
 
@@ -27,7 +28,7 @@ function ProjectDetails ({editProject, setEditProject}) {
     // }
     
     function handleDelete () {
-        fetch(`http://localhost:8000/projects/${project.id}`, {
+        fetch(`/projects/${project.id}`, {
             method:'DELETE'
         })
         .then(redirectHome())

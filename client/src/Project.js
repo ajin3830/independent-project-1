@@ -48,8 +48,8 @@ function Project({user}) {
 
     setLoading(true)
 
-    fetch('http://localhost:8000/projects', {
-    // fetch('/projects', {
+    // fetch('http://localhost:8000/projects', {
+    fetch('/projects', {
       method: "POST",
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(newProject)
@@ -71,9 +71,8 @@ function Project({user}) {
 
   return (
     <div className="new-project-form">
-      {/* {user ? */}
+      {user ?
         <>
-          <h2>Create Project</h2>
             <form onSubmit={handleSubmit}>
 
                 <label>Project Title: </label>
@@ -153,7 +152,9 @@ function Project({user}) {
                 {loading && <button disabled>Adding project...</button>}
             </form>
         </>
-      {/* : 'Log in to Post a Project!'} */}
+        :
+        <h2>Log in to Add Project</h2>
+      }
     </div>
   );
 }

@@ -1,18 +1,10 @@
-import {useNavigate} from "react-router-dom";
 import {useFormik} from "formik";
 import * as yup from "yup";
 
-
-function SignupForm({user, setUser}) {
-
-    let navigate = useNavigate()
-    //this works so can change to account page when there is one! 
-    function redirectHome() {
-        navigate('/')
-    }
+function SignupForm({user, setUser, redirectAccount}) {
     
     const formSchema = yup.object().shape({
-        name: yup.string().required("Must enter username"),
+        username: yup.string().required("Must enter username"),
         password: yup.string()
         .required("Must enter a password")
         .min(8, 'Password is too short - should be 8 chars minimum.')
@@ -30,14 +22,14 @@ function SignupForm({user, setUser}) {
 
     const formik = useFormik({
         initialValues: {
-            name: "",
+            username: "",
             password: "",
             confirmPassword: "",
             // ADDED ABOVE 1 LINE TO CONFIRM PASSWORD
         },
     
         validationSchema: formSchema,
-        onSubmit: (values) => {
+        onSubmit: (values, {resetForm}) => {
         // successfully posted a new account to below
         // fetch("http://localhost:8000/users", {
         // shows on db and above url
@@ -47,34 +39,43 @@ function SignupForm({user, setUser}) {
         //     "confirmPassword": "test123456",
         //     "id": 1
         // }
+
         fetch("/signup", {
             method: "POST",
-            headers: {
-            "Content-Type": "application/json",
-            },
+            headers: {"Content-Type": "application/json"},
             body: JSON.stringify(values, null, 2),
-        }).then((res) => {
+        })
+        .then((res) => {
             if (res.status === 201) {
-                redirectHome()
-                res.json().then(user => {
+                res.json()
+                .then((user) => {
                     setUser(user)
+                    window.alert(`Welcome ${user.username}!`)
                 })
-            } 
+                .then(() => {
+                    resetForm()
+                    // redirectAccount()
+                })
+            } else if (res.status === 500) {
+                window.alert("Username in use!")
+                resetForm()
+            }
         });
         },
     });
+    
 
     return (
         <div>
             <form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
                 <h1>Sign Up</h1>
-                <label htmlFor="name">Username:</label>
+                <label htmlFor="username">Username:</label>
                 <br />
                 <input
-                    id="name"
-                    name="name"
+                    id="username"
+                    name="username"
                     onChange={formik.handleChange}
-                    value={formik.values.name}
+                    value={formik.values.username}
                 />
                 <p style={{ color: "red" }}> {formik.errors.name}</p>
 

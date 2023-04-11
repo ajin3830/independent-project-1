@@ -10,11 +10,6 @@ function Home () {
     // const handleClickAgain = (name, e) => {
     //     console.log('hello ' + name, e.target)
     // }
-    // const [blogs, setBlogs] = useState([
-    //     { title: 'My new website', body: 'lorem ipsum...', author: 'mario', id: 1 },
-    //     { title: 'Welcome party!', body: 'lorem ipsum...', author: 'yoshi', id: 2 },
-    //     { title: 'Web dev top tips', body: 'lorem ipsum...', author: 'mario', id: 3 }
-    // ])
     
     // function handleDelete(id) {
         //     const newBlogs = blogs.filter(blog => blog.id !== id)
@@ -34,15 +29,16 @@ function Home () {
     //     console.log('this runs at initial render and everytime state of name changes ')
     // }, [name])
 
-    const { data: blogs, loading, error} = useFetch(`http://localhost:8000/blogs`)
+    // const { data: blogs, loading, error} = useFetch(`http://localhost:8000/blogs`)
+    const { data: blogs, loading, error} = useFetch(`/blogs`)
 
     // const [user, setUser] = useState(null);
 
     // ========== Can i use useFetch=======================
-    // const { data: projects, loading, error} = useFetch(`http://localhost:8000/projects`)
+    // const { data: projects, loading, error} = useFetch(`http://localhost:5555/projects`)
     const [projects, setProjects] = useState([])
     useEffect(() => {
-        fetch('http://localhost:8000/projects')
+        fetch('/projects')
         .then(res => res.json())
         .then(prevProjects => setProjects(prevProjects))
     }, [])
@@ -53,6 +49,7 @@ function Home () {
     // ========== Can i use useFetch()=======================
 
 
+    
     // // user remains logged in
     // useEffect(() => {
     //     fetch("/check_session").then((r) => {
