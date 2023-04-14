@@ -1,7 +1,7 @@
 import {useParams, useNavigate} from 'react-router-dom'
 import useFetch from './useFetch'
 
-function BlogDetails ({editBlog, setEditBlog}) {
+function BlogDetails ({user, editBlog, setEditBlog}) {
     const {id} =useParams()
     const {data:blog, error, loading} = useFetch(`/blogs/${id}`)
     // const {data:blog, error, loading} = useFetch(`http://localhost:8000/blogs/${id}`)
@@ -10,6 +10,9 @@ function BlogDetails ({editBlog, setEditBlog}) {
 
     function redirectHome() {
         navigate('/')
+    }
+    function redirectAccount() {
+        navigate('/account')
     }
     // click on edit button, edit button changes to save and cancel, 
     // after save or cancel, redirect to show edited + all blogs
@@ -45,15 +48,29 @@ function BlogDetails ({editBlog, setEditBlog}) {
                 <p>Progress: {blog.progress}</p>
                 <p>Contributed by: {blog.contributor}</p>
                 <div>{blog.body}</div>
-
-                <button 
-                    className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" 
-                    // onClick={handlePatch}
-                >Edit</button>
-                <button 
-                    className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" 
-                    onClick={handleDelete}
-                >Delete</button>
+                {user? 
+                <>
+                    <button 
+                        className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" 
+                        // onClick={handlePatch}
+                    >Edit</button>
+                    <button 
+                        className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" 
+                        onClick={handleDelete}
+                    >Delete</button>
+                </>
+                    :
+                <>
+                    <button 
+                        className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" 
+                        onClick={redirectAccount}
+                    >Edit</button>
+                    <button 
+                        className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" 
+                        onClick={redirectAccount}
+                    >Delete</button>
+                </>
+                }
             </article>
         )}
 

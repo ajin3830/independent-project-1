@@ -4,6 +4,8 @@ from config import app, db, api
 from flask_restful import Resource
 from models import db, User, Project, Blog, UserProject
 
+import json
+
 #//////////////////// User ///////////////////////////
 
 # /signup
@@ -21,19 +23,25 @@ def signup():
     password = request.get_json().get('password')
     confirm_password = request.get_json().get('confirmPassword')
 
-    if username and password and confirm_password:
-        if password == confirm_password:
-            # Create a new User instance with the retrieved values
-            new_user = User(username=username)
-            new_user.password_hash = password
+    
+    if username and password and confirm_password and password == confirm_password:
+        # if password == confirm_password:
+        user = User.query.filter_by(username=username).first()
+        if not user:
+        # Create a new User instance with the retrieved values
+            try:
+                new_user = User(username=username)
+                new_user.password_hash = password
 
-            db.session.add(new_user)
-            db.session.commit()
+                db.session.add(new_user)
+                db.session.commit()
 
-            session['user_id'] = new_user.id
-            return new_user.to_dict(), 201
-        return {'message': 'Passwords do not match'}, 422
-    return {'message': 'Username, password, and confirm password are required'}, 422
+                session['user_id'] = new_user.id
+                return new_user.to_dict(), 201
+            except ValueError as e:
+                # it wont be triggered as im not validating password on the backend
+                return {'message': [e.__str__()]}, 422
+    return {'message': 'Username in use, plz try again'}, 422
 
 # /login
 @app.route('/login', methods=['POST'])
@@ -52,7 +60,6 @@ def login():
 @app.route('/check_session', methods=['GET'])
 def check_session():
     if session.get('user_id'):
-    # if session['user_id']:
         user = User.query.filter_by(id=session['user_id']).first()
         if user:
             return user.to_dict(), 200
@@ -62,7 +69,6 @@ def check_session():
 @app.route('/logout', methods=['DELETE'])
 def logout():
     if session.get('user_id'):
-    # if session['user_id']:
         session['user_id'] = None
         return {'message': '204: No Content'}, 204
     return {'message': '401: Unauthorized'}, 401
@@ -81,6 +87,7 @@ def projects():
     
     elif request.method == 'POST':
         try:
+            # print(request.get_json()['contributors'])
             new_project = Project(
                title = request.get_json()['title'],
                date = request.get_json()['date'],
@@ -93,13 +100,46 @@ def projects():
             db.session.add(new_project)
             db.session.commit()
 
-            # //////// ADD to UserProject ///////////////
-            user_project = UserProject(
-                user_id = session['user_id'],
-                project_id = new_project.id
-            )
-            db.session.add(user_project)
-            db.session.commit()
+            # print(new_project.contributors)
+            # print(type(new_project.contributors))
+            contributors_list = new_project.contributors.split(', ')
+            # print(contributors_list)
+            i = 0
+            while i < len(contributors_list):
+                # print(contributors_list[i])
+                # if contributors_list[i] is not an existing username
+                if not User.query.filter_by(username=contributors_list[i]).first():
+                    # db add and commit new user and give it temp password
+                    new_user = User(username=contributors_list[i])
+                    new_user.password_hash = new_user.username + 'password'
+
+                    db.session.add(new_user)
+                    db.session.commit()
+                    # then add non existing contributors to UserProject
+                    user_project = UserProject(
+                        user_id = new_user.id,
+                        project_id = new_project.id
+                    )
+                    db.session.add(user_project)
+                    db.session.commit()
+                # if existing username 
+                else:
+                    existing_user = User.query.filter_by(username=contributors_list[i]).first()
+                    user_project = UserProject(
+                        user_id = existing_user.id,
+                        project_id = new_project.id
+                    )
+                    db.session.add(user_project)
+                    db.session.commit() 
+                i = i + 1
+
+            # //////// ADD session userto UserProject ///////////////
+            # user_project = UserProject(
+            #     user_id = session['user_id'],
+            #     project_id = new_project.id
+            # )
+            # db.session.add(user_project)
+            # db.session.commit()
 
             return new_project.to_dict(), 201
         except ValueError:
@@ -131,6 +171,8 @@ def project_by_id(id):
         db.session.delete(project)
         db.session.commit()
         return '', 200
+
+
 #/////////////////// Blog //////////////////////////////
 
 # /blogs
@@ -186,7 +228,6 @@ def blog_by_id(id):
         db.session.delete(blog)
         db.session.commit()
         return '', 200
-
 
 
 if __name__ == '__main__':

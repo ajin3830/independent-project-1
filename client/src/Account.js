@@ -14,7 +14,7 @@ function Account( {user, setUser} ) {
 
   return (
     <>
-      {user ? 'MAKE USER PERSONAL INFO PAGE':
+      {user ? 'MAKE USER PERSONAL INFO PAGE: delete acc, edit password':
       <>
         {account ? (
           <>

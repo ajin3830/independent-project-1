@@ -33,6 +33,15 @@ function Project({user}) {
 
   function handleSubmit(e) {
     e.preventDefault()
+    
+    // console.log(projectData.contributors)
+    // console.log(typeof(projectData.contributors)) =>STRING
+    // Split the contributors input value into an array and remove whitespaces
+    const contributorsArray = projectData.contributors.split(",").map(contributor => contributor.trim());
+    // console.log(contributorsArray)
+    // console.log(typeof(contributorsArray[0])) 
+    // console.log(contributorsArray[0])
+    // console.log(contributorsArray[1])
 
     const newProject = {
       title: projectData.title,
@@ -41,11 +50,11 @@ function Project({user}) {
       image: projectData.image,
       link: projectData.link,
       contributors: projectData.contributors,
+      // contributors: `${projectData.contributors}, ${user.username}`,
+      // contributors: contributorsArray,
       progress: progress
     }
-    // console.log(newProject)
     // console.log(progress)
-
     setLoading(true)
 
     // fetch('http://localhost:8000/projects', {
@@ -54,21 +63,24 @@ function Project({user}) {
       headers: {"Content-Type": "application/json"},
       body: JSON.stringify(newProject)
     })
-    .then(res => {console.log(res);
-        res.json()})
-    .then(() => {
-        console.log('new project added')
-        setLoading(false)
-        redirectHome()
+    .then(res => {
+      // console.log(res)
+      if (res.status === 201) {
+        res.json()
+        .then((data) => {
+          console.log(data.contributors)
+          window.alert('new project added, the temp password for the new user is usernamepassword ')
+          setLoading(false)
+          redirectHome()
+          // console.log(typeof(data.contributors))
+          // console.log(user.username)
+      })
+      } else if (res.status === 500) {
+        window.alert('Invalid contributors input!') 
+      }
     })
-    // .then(newObj => {
-    //     console.log('new project added')
-    //     setLoading(false)
-    //     handlePostProj(newObj)
-    //     redirectHome()
-    // })
   }  
-
+  
   return (
     <div className="new-project-form">
       {user ?
@@ -85,6 +97,7 @@ function Project({user}) {
                   placeholder="Project title"
                   onChange={handleInput}
                 />
+                <hr />
 
                 <label>Project Date: </label>
                 <input
@@ -96,6 +109,7 @@ function Project({user}) {
                   placeholder="Date"
                   onChange={handleInput}
                 />
+                <hr />
 
                 <label>Project Description: </label>
                 <textarea
@@ -107,6 +121,7 @@ function Project({user}) {
                   rows="5"
                   onChange={handleInput}
                 />
+                <hr />
 
                 <label>Project Image: </label>
                 <input
@@ -117,6 +132,7 @@ function Project({user}) {
                   placeholder="Project image url"
                   onChange={handleInput}
                 />
+                <hr />
 
                 <label>Project Link: </label>
                 <input
@@ -128,6 +144,7 @@ function Project({user}) {
                   placeholder="Link"
                   onChange={handleInput}
                 />
+                <hr />
 
                 <label>Project contributers: </label>
                 <input
@@ -136,9 +153,11 @@ function Project({user}) {
                   type="text"
                   name="contributors"
                   value={projectData.contributors}
-                  placeholder="contributors"
+                  placeholder="username"
                   onChange={handleInput}
                 />
+                <hr />
+
                 <label>Project progress:</label>
                 <select
                     value={projectData.progress}
@@ -147,6 +166,8 @@ function Project({user}) {
                     <option value='ongoing'>Ongoing</option>
                     <option value='done'>Done</option>
                 </select>
+                <hr />
+
                 {!loading && <button type="submit" className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                 >Add Project</button>}
                 {loading && <button disabled>Adding project...</button>}

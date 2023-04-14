@@ -1,6 +1,7 @@
 import BlogList from './BlogList'
 import useFetch from './useFetch'
 import ProjectList from './ProjectList'
+import SearchBar from "./SearchBar"
 import {useState, useEffect} from 'react'
 
 function Home () {
@@ -47,31 +48,40 @@ function Home () {
     //     setProjects([...projects, newProject])
     // }
     // ========== Can i use useFetch()=======================
-
+//   search should be in navbar and only shows when home
+//   can search for both blog and project
 
     
-    // // user remains logged in
-    // useEffect(() => {
-    //     fetch("/check_session").then((r) => {
-    //     if (r.ok) {
-    //         r.json().then((user) => {
-    //         setUser(user)
-    //         });
-    //     }
-    //     });
-    // }, []);
+    const [searchText, setSearchText] = useState('');
+    // CAN ONLY SEARCH PROJECTS BC SEARCHING BOTH DONT WORK RIGHT
+    function searchAll() {
+        if (searchText.length > 0) {
+            let searchedBlogs = blogs.filter((blog,)=>blog.title.toLowerCase().includes(searchText.toLowerCase()))
+            let searchedProjects =projects.filter((project) =>project.title.toLowerCase().includes(searchText.toLowerCase()))
+            // console.log(searchedBlogs)
+            // return searchedBlogs, searchedProjects
+            return searchedProjects
+        } else {
+            // return blogs, projects
+            return projects
+        }
+    }
     
-    // function handleLogout() {
-    //     setUser(null)
-    // }
+    function handleSearch(input) {
+        setSearchText(input)
+    }
 
     return (
         <div className="home">
+            <SearchBar searchText={searchText} handleSearch={handleSearch}/>
             {error && <div>{error}</div>}
             {loading && <div>Loading...</div>}
+            {/* {blogs && <BlogList blogs={blogs} title='All Blogs'/>}  */}
             {blogs && <BlogList blogs={blogs} title='All Blogs'/>} 
             
-            <ProjectList projects={projects} title='All Projects'/>          
+            {/* <ProjectList projects={projects} title='All Projects'/> */}
+            <ProjectList projects={searchAll()} title='All Projects'/> 
+
             {/* <BlogList blogs={blogs} title='All Blogs' handleDelete={handleDelete}/>  */}
             {/* <button onClick={() => setName('luigi')}>Change name</button>
             <p>{name}</p> */}

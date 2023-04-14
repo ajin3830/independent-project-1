@@ -15,22 +15,22 @@ def make_users():
 
     print("Seeding users...")
 
-    # users = []
-    # for i in range(4):
-    #     user = User(username = fake.simple_profile()['username'])
-    #     user.password_hash = user.username + 'password'
-    #     users.append(user)
-    #     # print(users)
-    # db.session.add_all(users)
-    # db.session.commit()
+    users = []
+    for i in range(10):
+        user = User(username = fake.simple_profile()['username'])
+        user.password_hash = user.username + 'password'
+        users.append(user)
+        # print(users)
+    db.session.add_all(users)
+    db.session.commit()
 
     # LOGIN works, SIGNUP works 
-    test_user = User(
-        username = 'TEST'
-    )
-    test_user.password_hash = test_user.username + '123456'
-    db.session.add(test_user)
-    db.session.commit()
+    # test_user = User(
+    #     username = 'TEST'
+    # )
+    # test_user.password_hash = test_user.username + '123456'
+    # db.session.add(test_user)
+    # db.session.commit()
 
 def make_projects():
     Project.query.delete()
@@ -41,6 +41,13 @@ def make_projects():
     progresses = ['Ongoing', 'Done']
 
     for i in range(4):
+        fake_profile_dict = fake.simple_profile()
+        username = fake_profile_dict['username']
+        print(f"Contributors: {username}")
+        print(type(username))
+        # Convert username to JSON format
+        # contributors_json = json.dumps([username])
+
         project = Project(
             title = fake.catch_phrase(),
             date = fake.date_this_year(),
@@ -48,7 +55,10 @@ def make_projects():
             # image = faker doesn't have actual images,
             image = 'https://media.istockphoto.com/id/1218928612/photo/puppies-golden-retriever-breed-with-pedigree-playing-running-they-roll-in-the-grass-in-slow.jpg?s=612x612&w=0&k=20&c=8_qYerdxczfs1E33tucagE-DFiMereboHFBm7jgTBTs=',
             link = 'https://github.com/ajin3830',
-            contributors = 'AJ, AJ2',
+            contributors = username,
+            # Set contributors field with the JSON string
+            # contributors = contributors_json,
+            # contributors = json.dumps(['TEST1']),
             progress = rc(progresses)
         )
         projects.append(project)
@@ -69,7 +79,7 @@ def make_blogs():
         blog = Blog(
             title = fake.catch_phrase(),
             body = fake.catch_phrase(),
-            contributor = fake.catch_phrase(),
+            contributor = fake.simple_profile()['username'],
             progress = rc(progresses),
             user_id = rc(users)[0]
         )
@@ -88,7 +98,7 @@ def make_user_projects():
 
     user_projects = []
     
-    for i in range(10):
+    for i in range(5):
         user_project = UserProject(
             user_id = rc(users)[0],
             project_id = rc(projects)[0]

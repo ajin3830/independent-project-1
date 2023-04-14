@@ -4,6 +4,8 @@ from sqlalchemy.ext.associationproxy import association_proxy
 from sqlalchemy.orm import validates
 
 from config import db, bcrypt
+import json
+# import string
 
 
 # ADD Validators!! Email ???
@@ -43,6 +45,19 @@ class User(db.Model, SerializerMixin):
         return bcrypt.check_password_hash(
             self._password_hash, password.encode('utf-8'))
 
+    # @validates(_password_hash)
+    # def validate_password(self, key, _password_hash):
+    #     up_case_chars = list(string.ascii_uppercase)
+    #     special_chars = list(string.punctuation)
+    #     if not len(_password_hash) >= 8:
+    #         raise ValueError('Password must be at least 8 characters')
+    #     if not any(char in up_case_chars for char in _password_hash):
+    #         raise ValueError('Password must contain one uppercase letter min')
+    #     if not any(char in special_chars for char in _password_hash):
+    #         # BELOW NOT COMPLETE
+    #         raise ValueError('Password must contain one of these characters min: ' + string.punctuation)
+    #     return _password_hash
+    
     def __repr__(self):
         return f'<User {self.username}>'
 
@@ -73,6 +88,34 @@ class Project(db.Model, SerializerMixin):
     # many to many
     user_projects = db.relationship('UserProject', backref='project')
     users = association_proxy('user_projects', 'user')
+    # users = association_proxy('user_projects', 'user', creator=lambda user: UserProject(user=user))
+
+    @property
+    def contributors_list(self):
+        return json.loads(self.contributors) if self.contributors else []
+    
+    @contributors_list.setter
+    def contributors_list(self, value):
+        self.contributors = json.dumps(value) if value else None
+
+    # Use json.dumps() to convert the contributors_list to a JSON string 
+    # before assigning it to the contributors field in the Project model.
+    
+    # Use json.loads() to parse the value in the validate_contributors() 
+    # method to convert it from a JSON string to a Python list object.
+
+    # NOT WORKING throws type error
+    # handles the string input and converts it to a list of strings for validation:
+    # @validates('contributors')
+    # def validate_contributors(self, key, value):
+    #     # Check if value is a string
+    #     if not isinstance(value, str):
+    #         raise ValueError('Contributors must be a string')
+
+    #     # If all checks pass, return the validated value
+    #     return value
+
+
 
     def __repr__(self):
         return f'<Project {self.title}>'

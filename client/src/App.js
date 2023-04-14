@@ -8,6 +8,7 @@ import ProjectDetails from './ProjectDetails'
 import NotFound from './NotFound'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import {useState, useEffect} from 'react'
+import { UserContext } from './UserContext'
 
 
 function App() {
@@ -29,10 +30,15 @@ function App() {
     setUser(null)
   }
 
+  const userContextValue = {
+    user, setUser
+  }
+
   return (
+    <UserContext.Provider value={userContextValue}>
     <Router>
       <div className="App">
-        <Navbar user={user} onLogout={onLogout}/>
+        <Navbar onLogout={onLogout}/>
         <div className='content'>
           <Routes>
             <Route 
@@ -49,7 +55,7 @@ function App() {
             <Route 
               exact
               path="/blogs/:id"
-              element= {<BlogDetails />}
+              element= {<BlogDetails user={user} />}
             /> 
             <Route 
             // create a project
@@ -60,7 +66,7 @@ function App() {
             <Route 
               exact
               path="/projects/:id"
-              element= {<ProjectDetails />}
+              element= {<ProjectDetails user={user} />}
             /> 
             <Route 
               exact
@@ -76,6 +82,7 @@ function App() {
         </div>
       </div>
     </Router>
+    </UserContext.Provider>
   );
 }
 

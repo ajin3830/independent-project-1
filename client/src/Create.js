@@ -20,7 +20,7 @@ function Create ({user}) {
         e.preventDefault()
         const blog = {title, body, contributor, progress }
         // console.log(blog)
-
+        console.log(user.id)
         setLoading(true)
 
         // fetch('http://localhost:8000/blogs', {
