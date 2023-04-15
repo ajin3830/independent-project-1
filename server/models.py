@@ -97,22 +97,14 @@ class Project(db.Model, SerializerMixin):
     users = association_proxy('user_projects', 'user')
     # users = association_proxy('user_projects', 'user', creator=lambda user: UserProject(user=user))
 
-    # Use json.loads() to parse the value in the validate_contributors() 
-    # method to convert it from a JSON string to a Python list object.
     @validates('contributors')
     def validate_contributors(self, key, contributors):
-        for contributor in json.loads(contributors):
-            if len(contributor) > 12 or len(contributor) < 5:
-                raise ValueError('Contributor name must be at betwteen 5 and 12 chars')
-        return contributors
-    
-    # @property
-    # def contributors_list(self):
-    #     return json.loads(self.contributors) if self.contributors else []
-    
-    # @contributors_list.setter
-    # def contributors_list(self, value):
-    #     self.contributors = json.dumps(value) if value else None
+
+        contributors_list = contributors.split(', ')
+        for contributor in contributors_list:
+            if not len(contributor) >= 4:
+                raise ValueError('Contributor name must be at 5 chars min')
+            return contributors
 
     def __repr__(self):
         return f'<Project {self.title}>'
