@@ -5,10 +5,7 @@ from sqlalchemy.orm import validates
 
 from config import db, bcrypt
 import json
-# import string
-
-
-# ADD Validators!! Email ???
+# import string for password validators?
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
@@ -45,6 +42,16 @@ class User(db.Model, SerializerMixin):
         return bcrypt.check_password_hash(
             self._password_hash, password.encode('utf-8'))
 
+    @validates('username')
+    def validate_username(self, key, username):
+        if not username:
+            raise ValueError('No username provided')
+        if User.query.filter_by(username=username).first():
+            raise ValueError('Username already in use')
+        if len(username) < 4 or len(username) > 12:
+            raise ValueError('Username must be at betwteen 5 and 12 chars')
+        return username
+    
     # @validates(_password_hash)
     # def validate_password(self, key, _password_hash):
     #     up_case_chars = list(string.ascii_uppercase)
@@ -90,36 +97,26 @@ class Project(db.Model, SerializerMixin):
     users = association_proxy('user_projects', 'user')
     # users = association_proxy('user_projects', 'user', creator=lambda user: UserProject(user=user))
 
-    @property
-    def contributors_list(self):
-        return json.loads(self.contributors) if self.contributors else []
-    
-    @contributors_list.setter
-    def contributors_list(self, value):
-        self.contributors = json.dumps(value) if value else None
-
-    # Use json.dumps() to convert the contributors_list to a JSON string 
-    # before assigning it to the contributors field in the Project model.
-    
     # Use json.loads() to parse the value in the validate_contributors() 
     # method to convert it from a JSON string to a Python list object.
-
-    # NOT WORKING throws type error
-    # handles the string input and converts it to a list of strings for validation:
-    # @validates('contributors')
-    # def validate_contributors(self, key, value):
-    #     # Check if value is a string
-    #     if not isinstance(value, str):
-    #         raise ValueError('Contributors must be a string')
-
-    #     # If all checks pass, return the validated value
-    #     return value
-
-
+    @validates('contributors')
+    def validate_contributors(self, key, contributors):
+        for contributor in json.loads(contributors):
+            if len(contributor) > 12 or len(contributor) < 5:
+                raise ValueError('Contributor name must be at betwteen 5 and 12 chars')
+        return contributors
+    
+    # @property
+    # def contributors_list(self):
+    #     return json.loads(self.contributors) if self.contributors else []
+    
+    # @contributors_list.setter
+    # def contributors_list(self, value):
+    #     self.contributors = json.dumps(value) if value else None
 
     def __repr__(self):
         return f'<Project {self.title}>'
-    
+
 class Blog(db.Model, SerializerMixin):
     __tablename__ = 'blogs'
 

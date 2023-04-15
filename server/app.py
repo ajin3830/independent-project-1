@@ -25,7 +25,6 @@ def signup():
 
     
     if username and password and confirm_password and password == confirm_password:
-        # if password == confirm_password:
         user = User.query.filter_by(username=username).first()
         if not user:
         # Create a new User instance with the retrieved values
@@ -115,6 +114,7 @@ def projects():
 
                     db.session.add(new_user)
                     db.session.commit()
+
                     # then add non existing contributors to UserProject
                     user_project = UserProject(
                         user_id = new_user.id,
@@ -122,9 +122,11 @@ def projects():
                     )
                     db.session.add(user_project)
                     db.session.commit()
+                    return new_user.to_dict(), 201
                 # if existing username 
                 else:
                     existing_user = User.query.filter_by(username=contributors_list[i]).first()
+                    
                     user_project = UserProject(
                         user_id = existing_user.id,
                         project_id = new_project.id
@@ -133,7 +135,7 @@ def projects():
                     db.session.commit() 
                 i = i + 1
 
-            # //////// ADD session userto UserProject ///////////////
+            # //////// ADD session user to UserProject ///////////////
             # user_project = UserProject(
             #     user_id = session['user_id'],
             #     project_id = new_project.id
@@ -143,7 +145,7 @@ def projects():
 
             return new_project.to_dict(), 201
         except ValueError:
-            return {'message': '400: Invalid input'}, 400
+            return {'message': '400: Contributor name must be betwteen 5 and 12 chars'}, 400
         
 # /projects/id
 @app.route('/projects/<int:id>', methods=['GET', 'PATCH', 'DELETE'])

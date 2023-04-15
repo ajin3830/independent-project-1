@@ -6,7 +6,7 @@ function Project({user}) {
 
     const [loading, setLoading] = useState(false)
     const [progress, setProgress] = useState('Ongoing')
-    
+
     let navigate = useNavigate()
     
     function redirectHome() {
@@ -36,12 +36,15 @@ function Project({user}) {
     
     // console.log(projectData.contributors)
     // console.log(typeof(projectData.contributors)) =>STRING
-    // Split the contributors input value into an array and remove whitespaces
-    const contributorsArray = projectData.contributors.split(",").map(contributor => contributor.trim());
+
+    // Split the contributors input value into an array and 
+    // remove whitespaces from both ends of a string and returns a new string, 
+    // without modifying the original string
+    // const contributorsArray = projectData.contributors
+    //                           .split(",").map(contributor => contributor.trim());
     // console.log(contributorsArray)
     // console.log(typeof(contributorsArray[0])) 
     // console.log(contributorsArray[0])
-    // console.log(contributorsArray[1])
 
     const newProject = {
       title: projectData.title,
@@ -50,8 +53,6 @@ function Project({user}) {
       image: projectData.image,
       link: projectData.link,
       contributors: projectData.contributors,
-      // contributors: `${projectData.contributors}, ${user.username}`,
-      // contributors: contributorsArray,
       progress: progress
     }
     // console.log(progress)
@@ -75,8 +76,13 @@ function Project({user}) {
           // console.log(typeof(data.contributors))
           // console.log(user.username)
       })
-      } else if (res.status === 500) {
-        window.alert('Invalid contributors input!') 
+      // } else if (res.status === 500) {
+      //   window.alert('Invalid contributors input!') 
+      // }
+      } else if (res.status === 400) {
+        res.json()
+        .then(error => window.alert(error['message']))
+        // then clear contributors input or jsut the whole form
       }
     })
   }  
