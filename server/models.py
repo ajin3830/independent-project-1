@@ -99,11 +99,11 @@ class Project(db.Model, SerializerMixin):
 
     @validates('contributors')
     def validate_contributors(self, key, contributors):
-
-        contributors_list = contributors.split(', ')
+        contributors_list = contributors.split(',')
+        print(contributors_list)
         for contributor in contributors_list:
-            if not len(contributor) >= 4:
-                raise ValueError('Contributor name must be at 5 chars min')
+            if not len(contributor) >= 5:
+                raise ValueError('Contributor name must be 5 chars min')
             return contributors
 
     def __repr__(self):

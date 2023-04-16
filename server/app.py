@@ -96,18 +96,21 @@ def projects():
                contributors = request.get_json()['contributors'],
                progress = request.get_json()['progress']
             )
+            # if only valid contributors , post new project
+
             db.session.add(new_project)
             db.session.commit()
 
             # print(new_project.contributors)
             # print(type(new_project.contributors))
-            contributors_list = new_project.contributors.split(', ')
-            # print(contributors_list)
+            contributors_list = new_project.contributors.split(',')
+            print(contributors_list)
             i = 0
             while i < len(contributors_list):
-                # print(contributors_list[i])
+                print(contributors_list[i])
                 # if contributors_list[i] is not an existing username
                 if not User.query.filter_by(username=contributors_list[i]).first():
+                # if len(contributors_list[i]) >= 4 and not User.query.filter_by(username=contributors_list[i]).first():
                     # db add and commit new user and give it temp password
                     new_user = User(username=contributors_list[i])
                     new_user.password_hash = new_user.username + 'password'
@@ -125,8 +128,9 @@ def projects():
                     return new_user.to_dict(), 201
                 # if existing username 
                 else:
-                    existing_user = User.query.filter_by(username=contributors_list[i]).first()
                     
+                    existing_user = User.query.filter_by(username=contributors_list[i]).first()
+                    print(existing_user.id)
                     user_project = UserProject(
                         user_id = existing_user.id,
                         project_id = new_project.id
@@ -145,7 +149,7 @@ def projects():
 
             return new_project.to_dict(), 201
         except ValueError:
-            return {'message': '400: Contributor name must be betwteen 5 and 12 chars'}, 400
+            return {'message': '400: Contributor name must be 5 chars min'}, 400
         
 # /projects/id
 @app.route('/projects/<int:id>', methods=['GET', 'PATCH', 'DELETE'])

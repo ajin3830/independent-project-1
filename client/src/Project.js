@@ -11,7 +11,6 @@ function Project({user}) {
     
     function redirectHome() {
         navigate('/')
-        // console.log("Project Added!" + user.name)
     }
     
     const initialValues = {
@@ -33,18 +32,21 @@ function Project({user}) {
 
   function handleSubmit(e) {
     e.preventDefault()
+    // if contributor 
+    const contributorArray = projectData.contributors.split(',')
+    const newContributorArray = contributorArray.map(contributor => {
+      // console.log(contributor)
+      if (contributor.length < 5) {
+        // contributor + random number
+        window.alert(`contributor ${contributor} modified to ${contributor}12345 as username for its new account, plz write down this temp password: ${contributor}12345password`)
+        return `${contributor}12345`
+      } 
+      return contributor
+      
+    })
+    // console.log(newContributorArray)
+    const validContributors = newContributorArray.toString()
     
-    // console.log(projectData.contributors)
-    // console.log(typeof(projectData.contributors)) =>STRING
-
-    // Split the contributors input value into an array and 
-    // remove whitespaces from both ends of a string and returns a new string, 
-    // without modifying the original string
-    // const contributorsArray = projectData.contributors
-    //                           .split(",").map(contributor => contributor.trim());
-    // console.log(contributorsArray)
-    // console.log(typeof(contributorsArray[0])) 
-    // console.log(contributorsArray[0])
 
     const newProject = {
       title: projectData.title,
@@ -52,10 +54,9 @@ function Project({user}) {
       description: projectData.description,
       image: projectData.image,
       link: projectData.link,
-      contributors: projectData.contributors,
+      contributors: validContributors,
       progress: progress
     }
-    // console.log(progress)
     setLoading(true)
 
     // fetch('http://localhost:8000/projects', {
@@ -69,19 +70,17 @@ function Project({user}) {
       if (res.status === 201) {
         res.json()
         .then((data) => {
-          console.log(data.contributors)
-          window.alert('new project added, the temp password for the new user is usernamepassword ')
+          // console.log(data.contributors)
+          window.alert(`New project added` )
           setLoading(false)
           redirectHome()
-          // console.log(typeof(data.contributors))
-          // console.log(user.username)
       })
-      // } else if (res.status === 500) {
-      //   window.alert('Invalid contributors input!') 
-      // }
       } else if (res.status === 400) {
         res.json()
-        .then(error => window.alert(error['message']))
+        .then(
+          (error) => {
+            window.alert(error['message'])
+          })
         // then clear contributors input or jsut the whole form
       }
     })
@@ -152,7 +151,7 @@ function Project({user}) {
                 />
                 <hr />
 
-                <label>Project contributers: </label>
+                <label>Project contributors: </label>
                 <input
                   id="contributors"
                   required
