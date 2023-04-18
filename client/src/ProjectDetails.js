@@ -3,6 +3,8 @@ import useFetch from './useFetch'
 import {useContext, useEffect, useState} from 'react'
 import { UserContext } from './UserContext'
 import EditProjectDetail from './EditProjectDetail'
+import {AiFillLinkedin, AiFillYoutube} from 'react-icons/ai';
+
 
 function ProjectDetails () {
     const {user} = useContext(UserContext)
@@ -36,7 +38,7 @@ function ProjectDetails () {
         {error && <div>{error}</div>}
         {project && (
             <>
-                <article>
+                {/* <article> */}
                 {clickEdit ? 
                     <>
                         <EditProjectDetail 
@@ -45,17 +47,20 @@ function ProjectDetails () {
                     </> 
                     : 
                     <>
-                        <h2>Title: {project.title}</h2>
-                        <p>Date: {project.date}</p>
-                        <p>Description: {project.description}</p> 
-                        <p>Image: {project.image}</p>
-                        <p>Link: {project.link}</p>
-                        <p>Contributed by: {project.contributors}</p>
-                        <p>Progress: {project.progress}</p> 
+                        <article>
+                            <h2>Title: {project.title}</h2>
+                            <p>Date: {project.date}</p>
+                            <p>Description: {project.description}</p> 
+                            <p>Image: {project.image}</p>
+                            <p>Link: {project.link}</p>
+                            <p>Contributed by: {project.contributors}</p>
+                            <p>Progress: {project.progress}</p> 
+                        </article>
+                        <AiFillLinkedin className='text-2xl'/>
+                        <AiFillYoutube className='text-2xl'/>
                     </>}
-                    
-                    {user && project.contributors.toLowerCase().includes(user.username.toLowerCase()) ? 
-                    // {user && project.contributors === user.username ? 
+                    {/* {user && project.contributors.toLowerCase().includes(user.username.toLowerCase()) ?  */}
+                    {user && project.contributors.split(',').filter( contributor => contributor === user.username).toString().trim() ? 
                         <>
                             {clickEdit ? 
                                 <></>
@@ -74,7 +79,7 @@ function ProjectDetails () {
                                     >Delete</button>
                                 </>}
                         </> : ''}
-                </article>
+                {/* </article> */}
             </>
          )} 
        </div> 

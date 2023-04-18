@@ -1,6 +1,11 @@
 import { useContext } from 'react';
 import {Link, useNavigate} from 'react-router-dom';
 import { UserContext } from './UserContext';
+import {BiHomeHeart} from 'react-icons/bi';
+import {TbBrandBlogger} from 'react-icons/tb';
+import {AiOutlineProject} from 'react-icons/ai';
+import {MdAccountCircle} from 'react-icons/md';
+import {FaSignOutAlt} from 'react-icons/fa';
 
 function Navbar ({ onLogout}) {
     const {user} = useContext(UserContext)
@@ -22,35 +27,43 @@ function Navbar ({ onLogout}) {
 
     return (
         <nav className="navbar">
-            <h1 className='text-2xl'
-            >APP</h1>
+            <h1 className='text-2xl font-normal md:font-bold'
+            >Portfolio</h1>
             <div className='links'>
-                <Link to='/' className='text-xl'>
-                  Home
+                <Link to='/' className='font-normal md:font-bold pe-8 '>
+                  HOME
+                  <BiHomeHeart className='text-4xl'/>
                 </Link>
 
-                <Link to='/create' className='text-l text-white bg-gradient-to-r from-cyan-500 to-teal-500 px-1 rounded ml-8'>
-                  New Blog
+                <Link to='/create' className='font-normal md:font-bold pe-8' >
+                  BLOG
+                  <TbBrandBlogger className='text-4xl' />
                 </Link>
                 
-                <Link to='/project' className='text-l text-white bg-gradient-to-r from-cyan-500 to-teal-500 px-1 rounded ml-8'>
-                  New Project
+                <Link to='/project' className='font-normal md:font-bold pe-8' >
+                  PROJECT
+                  <AiOutlineProject className='text-4xl'/>
                 </Link>
 
               {user ?
               <>
-                <Link to='/account' className='text-l text-white bg-gradient-to-r from-cyan-500 to-teal-500 px-1 rounded ml-8'
-                  >{user.username} 's Account
+                <Link to='/account' className='font-normal md:font-bold pe-8'
+                  >{user.username}
+                  <MdAccountCircle className='text-4xl'/>
                 </Link>
                   
-                <Link to="/logout">
-                  <button className="NavBarButton" onClick={handleLogout}>Logout</button>
+                <Link to="/logout" className='font-normal md:font-bold'>
+                  <button onClick={handleLogout}
+                  >Logout
+                  <FaSignOutAlt className='text-4xl'/>
+                  </button>
                 </Link>
               </>
               : 
               <>
-                <Link to='/account' className='text-l text-white bg-gradient-to-r from-cyan-500 to-teal-500 px-1 rounded ml-8'>
+                <Link to='/account' className='font-normal md:font-bold'>
                   Account
+                  <MdAccountCircle className='text-4xl'/>
                 </Link>
               </>
               }

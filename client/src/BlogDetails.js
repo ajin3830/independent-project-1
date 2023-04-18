@@ -14,21 +14,6 @@ function BlogDetails ({user, editBlog, setEditBlog}) {
     function redirectAccount() {
         navigate('/account')
     }
-    // click on edit button, edit button changes to save and cancel, 
-    // after save or cancel, redirect to show edited + all blogs
-    // function handlePatch () {
-    //     const edit = {edit title, edit body, filter author}
-    //     fetch(`http://localhost:8000/blogs/${blog.id}`, {
-    //         method:'PATCH',
-    //         headers:{'Content-Type': 'application/json'},
-    //         body: JSON.stringify(edit)
-    //     })
-    //     .then(r => r.json())
-    //     .then(data => {
-    //         setEditBlog(data)
-    //         redirectHome()
-    //     })
-    // }
     
     function handleDelete () {
         fetch(`/blogs/${blog.id}`, {
@@ -38,7 +23,6 @@ function BlogDetails ({user, editBlog, setEditBlog}) {
     }
     return (
        <div className='blog-details'>
-        {/* <h2>Blog details: {id}</h2> */}
         {loading && <div>Loading...</div>}
         {error && <div>{error}</div>}
         {blog && (

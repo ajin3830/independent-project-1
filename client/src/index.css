@@ -16,15 +16,17 @@
   color: #333;
 }
 .navbar {
-  padding: 20px;
+  padding: 10px;
   display: flex;
   align-items: center;
-  max-width: 600px;
+  max-width: 700px;
   margin: 0 auto;
   border-bottom: 1px solid #f2f2f2;
 }
 
 .navbar .links {
+  padding: 10px;
+  display: flex;
   margin-left: auto;
 }
 
@@ -67,3 +69,24 @@
   box-sizing: border-box;
   display: block;
 }
+
+/* create new project form */
+.new-project-form {
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+.new-project-form label {
+  text-align: left;
+  display: block;
+}
+
+.new-project-form input, .new-project-form textarea, .new-project-form select {
+  width: 100%;
+  padding: 6px 10px;
+  margin: 10px 0;
+  border: 1px solid #ddd;
+  box-sizing: border-box;
+  display: block;
+}
+

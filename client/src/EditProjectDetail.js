@@ -25,7 +25,7 @@ function EditProjectDetail({project, redirectHome}) {
       // console.log(contributor)
       if (contributor.length < 5) {
       // contributor + random number
-        window.alert(`contributor ${contributor} modified to ${contributor}12345 as username for its new account, plz write down this temp password: ${contributor}12345password`)
+        window.alert(`contributor ${contributor} modified to ${contributor}12345 as username for its new account, plz write down this temp password: ${contributor}4Password`)
         return `${contributor}12345`
       } 
       return contributor

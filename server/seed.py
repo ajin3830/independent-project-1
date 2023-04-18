@@ -18,7 +18,7 @@ def make_users():
     users = []
     for i in range(10):
         user = User(username = fake.simple_profile()['username'])
-        user.password_hash = user.username + 'password'
+        user.password_hash = user.username + '4Password'
         users.append(user)
         # print(users)
     db.session.add_all(users)

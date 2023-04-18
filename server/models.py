@@ -5,7 +5,7 @@ from sqlalchemy.orm import validates
 
 from config import db, bcrypt
 import json
-# import string for password validators?
+# import string for password validators
 
 class User(db.Model, SerializerMixin):
     __tablename__ = 'users'
@@ -48,8 +48,10 @@ class User(db.Model, SerializerMixin):
             raise ValueError('No username provided')
         if User.query.filter_by(username=username).first():
             raise ValueError('Username already in use')
-        if len(username) < 4 or len(username) > 12:
-            raise ValueError('Username must be at betwteen 5 and 12 chars')
+        if not len(username) >= 5:
+                raise ValueError('Username name must be 5 chars min')
+        # if len(username) < 4 or len(username) > 12:
+        #     raise ValueError('Username must be at betwteen 5 and 12 chars')
         return username
     
     # @validates(_password_hash)

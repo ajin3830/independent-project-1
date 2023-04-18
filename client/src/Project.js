@@ -36,9 +36,9 @@ function Project({user}) {
     const contributorArray = projectData.contributors.split(',')
     const newContributorArray = contributorArray.map(contributor => {
       // console.log(contributor)
-      if (contributor.length < 5) {
+      if (contributor.trim().length < 5) {
         // contributor + random number
-        window.alert(`contributor ${contributor} modified to ${contributor}12345 as username for its new account, plz write down this temp password: ${contributor}12345password`)
+        window.alert(`contributor ${contributor} modified to ${contributor}12345 as username for its new account, plz write down this temp password: ${contributor}4Password`)
         return `${contributor}12345`
       } 
       return contributor
@@ -102,7 +102,6 @@ function Project({user}) {
                   placeholder="Project title"
                   onChange={handleInput}
                 />
-                <hr />
 
                 <label>Project Date: </label>
                 <input
@@ -114,7 +113,6 @@ function Project({user}) {
                   placeholder="Date"
                   onChange={handleInput}
                 />
-                <hr />
 
                 <label>Project Description: </label>
                 <textarea
@@ -126,7 +124,6 @@ function Project({user}) {
                   rows="5"
                   onChange={handleInput}
                 />
-                <hr />
 
                 <label>Project Image: </label>
                 <input
@@ -137,7 +134,6 @@ function Project({user}) {
                   placeholder="Project image url"
                   onChange={handleInput}
                 />
-                <hr />
 
                 <label>Project Link: </label>
                 <input
@@ -149,7 +145,6 @@ function Project({user}) {
                   placeholder="Link"
                   onChange={handleInput}
                 />
-                <hr />
 
                 <label>Project contributors: </label>
                 <input
@@ -161,17 +156,14 @@ function Project({user}) {
                   placeholder="username"
                   onChange={handleInput}
                 />
-                <hr />
 
                 <label>Project progress:</label>
                 <select
-                    value={projectData.progress}
-                    onChange={(e) => setProgress(e.target.value)}
-                    >
+                    onChange={(e) => setProgress(e.target.value)}>
+                    <option value='select'>Select</option>
                     <option value='ongoing'>Ongoing</option>
                     <option value='done'>Done</option>
                 </select>
-                <hr />
 
                 {!loading && <button type="submit" className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                 >Add Project</button>}

@@ -43,14 +43,6 @@ function Home () {
         .then(res => res.json())
         .then(prevProjects => setProjects(prevProjects))
     }, [])
-
-    // function handlePostProj(newProject) {
-    //     setProjects([...projects, newProject])
-    // }
-    // ========== Can i use useFetch()=======================
-//   search should be in navbar and only shows when home
-//   can search for both blog and project
-
     
     const [searchText, setSearchText] = useState('');
     // CAN ONLY SEARCH PROJECTS BC SEARCHING BOTH DONT WORK RIGHT
@@ -82,14 +74,6 @@ function Home () {
             {/* <ProjectList projects={projects} title='All Projects'/> */}
             <ProjectList projects={searchAll()} title='All Projects'/> 
 
-            {/* <BlogList blogs={blogs} title='All Blogs' handleDelete={handleDelete}/>  */}
-            {/* <button onClick={() => setName('luigi')}>Change name</button>
-            <p>{name}</p> */}
-
-            {/* <BlogList blogs={blogs.filter((blog) => blog.author === 'mario' )} title="Mario's Blogs"/> */}
-            
-            {/* <button onClick={handleClick}>Click me</button> */}
-            {/* <button onClick={(e) => handleClickAgain('aj', e)}>Click me again</button> */}
         </div>
     )
 }
