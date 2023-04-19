@@ -1,9 +1,10 @@
-import {useParams, useNavigate} from 'react-router-dom'
+import {useParams, useNavigate, Link} from 'react-router-dom'
 import useFetch from './useFetch'
 import {useContext, useEffect, useState} from 'react'
 import { UserContext } from './UserContext'
 import EditProjectDetail from './EditProjectDetail'
 import {AiFillLinkedin, AiFillYoutube} from 'react-icons/ai';
+
 
 
 function ProjectDetails () {
@@ -49,15 +50,19 @@ function ProjectDetails () {
                     <>
                         <article>
                             <h2>Title: {project.title}</h2>
-                            <p>Date: {project.date}</p>
+                            <p>Date: {project.date? project.date :project.created_at.split(' ')[0]}</p>
                             <p>Description: {project.description}</p> 
-                            <p>Image: {project.image}</p>
+                            <img src={project.image} alt={project.image}/>
+                            {/* <p>Image: {project.image}</p> */}
                             <p>Link: {project.link}</p>
+                            {/* <Link to={`${project.link}`}></Link> */}
                             <p>Contributed by: {project.contributors}</p>
                             <p>Progress: {project.progress}</p> 
                         </article>
-                        <AiFillLinkedin className='text-2xl'/>
-                        <AiFillYoutube className='text-2xl'/>
+                        <div className='text-2xl flex gap-4 py-3'>
+                            <AiFillLinkedin />
+                            <AiFillYoutube />
+                        </div>
                     </>}
                     {/* {user && project.contributors.toLowerCase().includes(user.username.toLowerCase()) ?  */}
                     {user && project.contributors.split(',').filter( contributor => contributor === user.username).toString().trim() ? 

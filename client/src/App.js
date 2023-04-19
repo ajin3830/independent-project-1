@@ -37,7 +37,7 @@ function App() {
   return (
     <UserContext.Provider value={userContextValue}>
     <Router>
-      <div className="App bg-blue-700 min-h-screen">
+      <div className="App bg-yellow-100 min-h-screen">
         <Navbar onLogout={onLogout}/>
         <div className='content'>
           <Routes>
