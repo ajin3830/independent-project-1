@@ -28,6 +28,7 @@ function Project({user}) {
     const name = e.target.name
 
     setProjectData({...projectData, [name]:value})
+    // setProjectData({[name]:value, ...projectData})
   }
 
   function handleSubmit(e) {
@@ -90,7 +91,7 @@ function Project({user}) {
     <div className="new-project-form">
       {user ?
         <>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className='font-normal md:font-bold'>
 
                 <label>Project Title: </label>
                 <input
@@ -99,7 +100,7 @@ function Project({user}) {
                   type="text"
                   name="title"
                   value={projectData.title}
-                  placeholder="Project title"
+                  placeholder=""
                   onChange={handleInput}
                 />
 
@@ -110,7 +111,7 @@ function Project({user}) {
                   type="text"
                   name="date"
                   value={projectData.date}
-                  placeholder="Date"
+                  placeholder=""
                   onChange={handleInput}
                 />
 
@@ -120,7 +121,7 @@ function Project({user}) {
                   required
                   name="description"
                   value={projectData.description}
-                  placeholder="Description"
+                  placeholder=""
                   rows="5"
                   onChange={handleInput}
                 />
@@ -131,7 +132,7 @@ function Project({user}) {
                   type="text"
                   name="image"
                   value={projectData.image}
-                  placeholder="Project image url"
+                  placeholder=""
                   onChange={handleInput}
                 />
 
@@ -142,7 +143,7 @@ function Project({user}) {
                   type="text"
                   name="link"
                   value={projectData.link}
-                  placeholder="Link"
+                  placeholder=""
                   onChange={handleInput}
                 />
 
@@ -165,8 +166,10 @@ function Project({user}) {
                     <option value='done'>Done</option>
                 </select>
 
-                {!loading && <button type="submit" className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-                >Add Project</button>}
+                {!loading && 
+                  <button type="submit" className="text-white bg-gradient-to-br from-blue-600 to-slate-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                    Add Project
+                  </button>}
                 {loading && <button disabled>Adding project...</button>}
             </form>
         </>

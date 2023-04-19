@@ -69,7 +69,7 @@ function EditProjectDetail({project, redirectHome}) {
 
     return (
         <>
-          <form onSubmit={handleSave}>
+          <form className='edit-project-form font-normal md:font-bold' onSubmit={handleSave}>
 
             <label>Project Title: </label>
                 <input
@@ -81,7 +81,6 @@ function EditProjectDetail({project, redirectHome}) {
                   placeholder="Project title"
                   onChange={handleEditFormChange}
                 />
-                <hr />
 
                 <label>Project Date: </label>
                 <input
@@ -93,7 +92,6 @@ function EditProjectDetail({project, redirectHome}) {
                   placeholder="Date"
                   onChange={handleEditFormChange}
                 />
-                <hr />
 
                 <label>Project Description: </label>
                 <textarea
@@ -105,7 +103,6 @@ function EditProjectDetail({project, redirectHome}) {
                   rows="5"
                   onChange={handleEditFormChange}
                 />
-                <hr />
 
                 <label>Project Image: </label>
                 <input
@@ -116,7 +113,6 @@ function EditProjectDetail({project, redirectHome}) {
                   placeholder="Project image url"
                   onChange={handleEditFormChange}
                 />
-                <hr />
 
                 <label>Project Link: </label>
                 <input
@@ -128,7 +124,6 @@ function EditProjectDetail({project, redirectHome}) {
                   placeholder="Link"
                   onChange={handleEditFormChange}
                 />
-                <hr />
 
                 <label>Project contributors: </label>
                 <input
@@ -140,7 +135,6 @@ function EditProjectDetail({project, redirectHome}) {
                   placeholder="username"
                   onChange={handleEditFormChange}
                 />
-                <hr />
 
                 <label>Project progress:</label>
                 <select
@@ -149,19 +143,19 @@ function EditProjectDetail({project, redirectHome}) {
                     <option value='ongoing'>Ongoing</option>
                     <option value='done'>Done</option>
                 </select>
-                <hr />
+
+                <button 
+                  onClick={handleSaveClick}
+                  className='text-white bg-gradient-to-br from-blue-600 to-slate-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'
+                >Save</button>
+
+                <button 
+                    type="button" 
+                    onClick={handleCancelClick}
+                    className='text-white bg-gradient-to-br from-blue-600 to-slate-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2'
+                >Cancel</button>
           </form>
 
-          <button 
-            onClick={handleSaveClick}
-            className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" 
-          >Save</button>
-
-          <button 
-              type="button" 
-              onClick={handleCancelClick}
-              className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" 
-          >Cancel</button>
         </>
     )
 }

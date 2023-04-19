@@ -6,9 +6,6 @@
 
 
 /* base styles */
-/* body {
-  background: linear-gradient(180deg, #dbdfe9 0%, #0a1732 100%);
-} */
 
 * {
   margin: 0;
@@ -36,16 +33,6 @@
   padding: 20px;
 }
 
-/* blog previews / list */
-.blog-preview {
-  padding: 10px 16px;
-  margin: 20px 0;
-  border-bottom: 1px solid #fafafa;
-}
-.blog-preview:hover {
-  box-shadow: 1px 3px 5px rgba(0,0,0,0.1);
-}
-
 .blog-details div {
   margin: 20px 0;
 }
@@ -65,7 +52,7 @@
   width: 100%;
   padding: 6px 10px;
   margin: 10px 0;
-  border: 1px solid #ddd;
+  border: 1px;
   box-sizing: border-box;
   display: block;
 }
@@ -85,7 +72,27 @@
   width: 100%;
   padding: 6px 10px;
   margin: 10px 0;
-  border: 1px solid #ddd;
+  border: 1px;
+  box-sizing: border-box;
+  display: block;
+}
+
+/* edit project form */
+.edit-project-form {
+  max-width: 400px;
+  margin: 0 auto;
+  text-align: center;
+}
+.edit-project-form label {
+  text-align: left;
+  display: block;
+}
+
+.edit-project-form input, .edit-project-form textarea, .edit-project-form select {
+  width: 100%;
+  padding: 6px 10px;
+  margin: 10px 0;
+  border: 1px ;
   box-sizing: border-box;
   display: block;
 }

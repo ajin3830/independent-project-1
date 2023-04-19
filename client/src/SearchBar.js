@@ -1,6 +1,6 @@
 function SearchBar( {searchText, handleSearch} ) {
     return (
-      <div className="search">
+      <div className="search flex justify-end">
         <input 
           type="text" 
           value={searchText}
