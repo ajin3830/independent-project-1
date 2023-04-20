@@ -1,8 +1,13 @@
 import {useParams, useNavigate} from 'react-router-dom'
 import useFetch from './useFetch'
+import {useContext, useEffect, useState} from 'react'
+import { UserContext } from './UserContext'
 
-function BlogDetails ({user, editBlog, setEditBlog}) {
+function BlogDetails () {
+    const {user} = useContext(UserContext)
+
     const {id} =useParams()
+
     const {data:blog, error, loading} = useFetch(`/blogs/${id}`)
     // const {data:blog, error, loading} = useFetch(`http://localhost:8000/blogs/${id}`)
 
@@ -14,22 +19,12 @@ function BlogDetails ({user, editBlog, setEditBlog}) {
     function redirectAccount() {
         navigate('/account')
     }
-    // click on edit button, edit button changes to save and cancel, 
-    // after save or cancel, redirect to show edited + all blogs
-    // function handlePatch () {
-    //     const edit = {edit title, edit body, filter author}
-    //     fetch(`http://localhost:8000/blogs/${blog.id}`, {
-    //         method:'PATCH',
-    //         headers:{'Content-Type': 'application/json'},
-    //         body: JSON.stringify(edit)
-    //     })
-    //     .then(r => r.json())
-    //     .then(data => {
-    //         setEditBlog(data)
-    //         redirectHome()
-    //     })
-    // }
-    
+
+    const [clickEdit, setClickEdit] = useState(false)
+    function handleEditClick () {
+        setClickEdit(true)
+    }
+
     function handleDelete () {
         fetch(`/blogs/${blog.id}`, {
             method:'DELETE'
@@ -38,38 +33,29 @@ function BlogDetails ({user, editBlog, setEditBlog}) {
     }
     return (
        <div className='blog-details'>
-        {/* <h2>Blog details: {id}</h2> */}
         {loading && <div>Loading...</div>}
         {error && <div>{error}</div>}
         {blog && (
             <article>
-                <h2 className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-                >{blog.title}</h2>
+                <h2 className='font-normal md:font-bold'>{blog.title}</h2>
                 <p>Progress: {blog.progress}</p>
                 <p>Contributed by: {blog.contributor}</p>
                 <div>{blog.body}</div>
-                {user? 
-                <>
-                    <button 
-                        className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" 
-                        // onClick={handlePatch}
-                    >Edit</button>
-                    <button 
-                        className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" 
-                        onClick={handleDelete}
-                    >Delete</button>
-                </>
+                {user && blog.contributor.localeCompare(user.username) === 0 ?
+                    <>
+                        <button 
+                            className="text-white bg-gradient-to-br from-blue-600 to-slate-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" 
+                            onClick={handleEditClick}
+                        >Edit</button>
+                        <button 
+                            className="text-white bg-gradient-to-br from-blue-600 to-slate-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" 
+                            onClick={handleDelete}
+                        >Delete</button>
+
+                    </>
                     :
-                <>
-                    <button 
-                        className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" 
-                        onClick={redirectAccount}
-                    >Edit</button>
-                    <button 
-                        className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" 
-                        onClick={redirectAccount}
-                    >Delete</button>
-                </>
+                    <>
+                    </>
                 }
             </article>
         )}

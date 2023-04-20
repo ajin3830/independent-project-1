@@ -11,11 +11,6 @@ function Home () {
     // const handleClickAgain = (name, e) => {
     //     console.log('hello ' + name, e.target)
     // }
-    
-    // function handleDelete(id) {
-        //     const newBlogs = blogs.filter(blog => blog.id !== id)
-        //     setBlogs(newBlogs)
-        // }
 
     // useEffect(()=> {
     //     console.log('this runs at every render when any state changes')
@@ -33,38 +28,31 @@ function Home () {
     // const { data: blogs, loading, error} = useFetch(`http://localhost:8000/blogs`)
     const { data: blogs, loading, error} = useFetch(`/blogs`)
 
-    // const [user, setUser] = useState(null);
-
-    // ========== Can i use useFetch=======================
-    // const { data: projects, loading, error} = useFetch(`http://localhost:5555/projects`)
+    // ========== useFetch for porjects?? =======================
+    // const { data: projects} = useFetch(`/projects`)
     const [projects, setProjects] = useState([])
     useEffect(() => {
         fetch('/projects')
         .then(res => res.json())
         .then(prevProjects => setProjects(prevProjects))
     }, [])
-
-    // function handlePostProj(newProject) {
-    //     setProjects([...projects, newProject])
-    // }
-    // ========== Can i use useFetch()=======================
-//   search should be in navbar and only shows when home
-//   can search for both blog and project
-
     
     const [searchText, setSearchText] = useState('');
-    // CAN ONLY SEARCH PROJECTS BC SEARCHING BOTH DONT WORK RIGHT
-    function searchAll() {
+
+    function searchProjects() {
         if (searchText.length > 0) {
-            let searchedBlogs = blogs.filter((blog,)=>blog.title.toLowerCase().includes(searchText.toLowerCase()))
             let searchedProjects =projects.filter((project) =>project.title.toLowerCase().includes(searchText.toLowerCase()))
-            // console.log(searchedBlogs)
-            // return searchedBlogs, searchedProjects
             return searchedProjects
-        } else {
-            // return blogs, projects
-            return projects
-        }
+        } 
+        return projects
+    }
+
+    function searchBlogs() {
+        if (searchText.length > 0) {
+            let searchedBlogs = blogs.filter((blog)=>blog.title.toLowerCase().includes(searchText.toLowerCase()))
+            return searchedBlogs
+        } 
+        return blogs
     }
     
     function handleSearch(input) {
@@ -73,23 +61,18 @@ function Home () {
 
     return (
         <div className="home">
-            <SearchBar searchText={searchText} handleSearch={handleSearch}/>
+            <SearchBar 
+            searchText={searchText} 
+            handleSearch={handleSearch}
+            />
             {error && <div>{error}</div>}
             {loading && <div>Loading...</div>}
             {/* {blogs && <BlogList blogs={blogs} title='All Blogs'/>}  */}
-            {blogs && <BlogList blogs={blogs} title='All Blogs'/>} 
+            {blogs && <BlogList blogs={searchBlogs()} title='All Blogs'/>} 
             
             {/* <ProjectList projects={projects} title='All Projects'/> */}
-            <ProjectList projects={searchAll()} title='All Projects'/> 
+            <ProjectList projects={searchProjects()} title='All Projects'/> 
 
-            {/* <BlogList blogs={blogs} title='All Blogs' handleDelete={handleDelete}/>  */}
-            {/* <button onClick={() => setName('luigi')}>Change name</button>
-            <p>{name}</p> */}
-
-            {/* <BlogList blogs={blogs.filter((blog) => blog.author === 'mario' )} title="Mario's Blogs"/> */}
-            
-            {/* <button onClick={handleClick}>Click me</button> */}
-            {/* <button onClick={(e) => handleClickAgain('aj', e)}>Click me again</button> */}
         </div>
     )
 }

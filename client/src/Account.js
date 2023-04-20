@@ -1,35 +1,46 @@
 import {useState} from "react";
 import SignupForm from "./SignupForm";
 import LoginForm from "./LoginForm";
-// import {useNavigate} from "react-router-dom";
+import {BsPersonX} from 'react-icons/bs';
+import {IoIosUnlock} from 'react-icons/io';
 
 
 function Account( {user, setUser} ) {
   const [account, setAccount] = useState(true);
 
-  // let navigate = useNavigate()
-  // function redirectAccount() {
-  //     navigate('/account')
-  // }
 
   return (
     <>
-      {user ? 'MAKE USER PERSONAL INFO PAGE: delete acc, edit password':
+      {user ? 
+      <>
+        <div className='justify-center flex py-10'>
+          <BsPersonX className='text-3xl'/>
+          <p className='font-normal md:font-bold'>DELETE ACCOUNT</p>
+        </div>
+        <div className='justify-center flex py-10'>
+          <IoIosUnlock className='text-3xl'/>
+          <p className='font-normal md:font-bold'>CHANGE PASSWORD</p>
+        </div>
+      </>
+      :
       <>
         {account ? (
           <>
             <LoginForm user={user} setUser={setUser}/>
             <hr />
 
-            <p>Don't have an account? &nbsp;
-              <button color="secondary" onClick={() => setAccount(false)}>Sign Up</button>
+            <p className="font-normal md:font-bold">
+              Don't have an account? &nbsp;
+              <button color="secondary" onClick={() => setAccount(false)}>
+                Sign Up
+              </button>
             </p>
           </>
         ) :(
           <>
             <SignupForm user={user} setUser={setUser}/>
             <hr />
-            <p>
+            <p className="font-normal md:font-bold">
               Already have an account? &nbsp;
               <button color="secondary" onClick={() => setAccount(true)}>
                 Log In

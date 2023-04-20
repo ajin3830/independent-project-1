@@ -1,8 +1,11 @@
-import {useState} from 'react'
+import {useState, useContext} from 'react'
 import {useNavigate} from "react-router-dom";
+import {IoMailOpenOutline} from 'react-icons/io5';
+import { UserContext } from './UserContext';
 
 // create a new blog
-function Create ({user}) {
+function Create () {
+    const {user} = useContext(UserContext)
 
     const [title, setTitle] = useState('')
     const [body, setBody] = useState('')
@@ -41,7 +44,7 @@ function Create ({user}) {
             <>
                 {user ?
                 <>
-                    <form onSubmit={handleSubmit}>
+                    <form onSubmit={handleSubmit} className='font-normal md:font-bold'>
                         <label>Blog title:</label>
                         <input
                             type='text'
@@ -67,17 +70,19 @@ function Create ({user}) {
                             value={progress}
                             onChange={(e) => setProgress(e.target.value)}
                         >
-                            <option value='ongoing'>Ongoing</option>
-                            <option value='done'>Done</option>
+                            <option value='Ongoing'>Ongoing</option>
+                            <option value='Done'>Done</option>
                         </select>
-                        {!loading && <button className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
+                        {!loading && <button className="text-white bg-gradient-to-br from-blue-600 to-slate-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                         >Add Blog</button>}
                         {loading && <button disabled>Adding blog...</button>}
                     </form>
                 </>
                 : 
-                <h2 className='text-xl text-white bg-gradient-to-r from-cyan-500 to-teal-500 px-3 rounded ml-8'
-                >Log in to Add a New Blog</h2>
+                <>
+                    <h2 className='font-normal md:font-bold'>Log in to Add Blog</h2>
+                    <IoMailOpenOutline className='text-3xl'/>
+                </>
                 }
             </>
        </div> 

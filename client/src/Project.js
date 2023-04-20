@@ -1,9 +1,13 @@
-import {useState} from 'react'
+import {useState, useContext} from 'react'
 import {useNavigate} from "react-router-dom";
+import {IoMailOpenOutline} from 'react-icons/io5';
+import { UserContext } from './UserContext';
+
 
 // create a new project
-function Project({user}) {
-
+function Project() {
+    const {user} = useContext(UserContext)
+    
     const [loading, setLoading] = useState(false)
     const [progress, setProgress] = useState('Ongoing')
 
@@ -28,6 +32,7 @@ function Project({user}) {
     const name = e.target.name
 
     setProjectData({...projectData, [name]:value})
+    // setProjectData({[name]:value, ...projectData})
   }
 
   function handleSubmit(e) {
@@ -36,11 +41,14 @@ function Project({user}) {
     const contributorArray = projectData.contributors.split(',')
     const newContributorArray = contributorArray.map(contributor => {
       // console.log(contributor)
-      if (contributor.length < 5) {
+      if (contributor.trim().length < 5) {
         // contributor + random number
-        window.alert(`contributor ${contributor} modified to ${contributor}12345 as username for its new account, plz write down this temp password: ${contributor}12345password`)
+        window.alert(`contributor ${contributor} modified to ${contributor}12345 as username for its new account, plz write down this temp password: ${contributor}4Password`)
         return `${contributor}12345`
-      } 
+      } else if(contributor.trim().length >= 5 && contributor !== user.username) {
+        window.alert(`Sccessfly created a new account for contributor ${contributor}! ${contributor} is the username, plz write down its temp password: ${contributor}4Password`)
+        return contributor
+      }
       return contributor
       
     })
@@ -90,7 +98,7 @@ function Project({user}) {
     <div className="new-project-form">
       {user ?
         <>
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className='font-normal md:font-bold'>
 
                 <label>Project Title: </label>
                 <input
@@ -99,10 +107,9 @@ function Project({user}) {
                   type="text"
                   name="title"
                   value={projectData.title}
-                  placeholder="Project title"
+                  placeholder=""
                   onChange={handleInput}
                 />
-                <hr />
 
                 <label>Project Date: </label>
                 <input
@@ -111,10 +118,9 @@ function Project({user}) {
                   type="text"
                   name="date"
                   value={projectData.date}
-                  placeholder="Date"
+                  placeholder=""
                   onChange={handleInput}
                 />
-                <hr />
 
                 <label>Project Description: </label>
                 <textarea
@@ -122,11 +128,10 @@ function Project({user}) {
                   required
                   name="description"
                   value={projectData.description}
-                  placeholder="Description"
+                  placeholder=""
                   rows="5"
                   onChange={handleInput}
                 />
-                <hr />
 
                 <label>Project Image: </label>
                 <input
@@ -134,10 +139,9 @@ function Project({user}) {
                   type="text"
                   name="image"
                   value={projectData.image}
-                  placeholder="Project image url"
+                  placeholder=""
                   onChange={handleInput}
                 />
-                <hr />
 
                 <label>Project Link: </label>
                 <input
@@ -146,10 +150,9 @@ function Project({user}) {
                   type="text"
                   name="link"
                   value={projectData.link}
-                  placeholder="Link"
+                  placeholder=""
                   onChange={handleInput}
                 />
-                <hr />
 
                 <label>Project contributors: </label>
                 <input
@@ -161,25 +164,28 @@ function Project({user}) {
                   placeholder="username"
                   onChange={handleInput}
                 />
-                <hr />
 
                 <label>Project progress:</label>
                 <select
-                    value={projectData.progress}
-                    onChange={(e) => setProgress(e.target.value)}
-                    >
-                    <option value='ongoing'>Ongoing</option>
-                    <option value='done'>Done</option>
+                    onChange={(e) => setProgress(e.target.value)}>
+                    <option value='Select'>Select</option>
+                    <option value='Ongoing'>Ongoing</option>
+                    <option value='Done'>Done</option>
                 </select>
-                <hr />
 
-                {!loading && <button type="submit" className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
-                >Add Project</button>}
+                {!loading && 
+                  <button type="submit" className="text-white bg-gradient-to-br from-blue-600 to-slate-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2">
+                    Add Project
+                  </button>}
                 {loading && <button disabled>Adding project...</button>}
             </form>
         </>
         :
-        <h2>Log in to Add Project</h2>
+        <>
+        
+          <h2 className='font-normal md:font-bold'>Log in to Add Project</h2>
+          <IoMailOpenOutline className='text-3xl'/>
+        </>
       }
     </div>
   );

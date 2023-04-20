@@ -1,12 +1,14 @@
 import {useParams, useNavigate} from 'react-router-dom'
 import useFetch from './useFetch'
-import {useContext, useEffect, useState} from 'react'
+import {useContext, useState} from 'react'
 import { UserContext } from './UserContext'
 import EditProjectDetail from './EditProjectDetail'
+import {AiFillLinkedin, AiFillYoutube} from 'react-icons/ai';
+
+
 
 function ProjectDetails () {
     const {user} = useContext(UserContext)
-    // const [progress, setProgress] = useState('Ongoing')
 
     const {id} =useParams()
     // const {data:project, error, loading} = useFetch(`http://localhost:8000/projects/${id}`)
@@ -36,7 +38,6 @@ function ProjectDetails () {
         {error && <div>{error}</div>}
         {project && (
             <>
-                <article>
                 {clickEdit ? 
                     <>
                         <EditProjectDetail 
@@ -45,17 +46,22 @@ function ProjectDetails () {
                     </> 
                     : 
                     <>
-                        <h2>Title: {project.title}</h2>
-                        <p>Date: {project.date}</p>
-                        <p>Description: {project.description}</p> 
-                        <p>Image: {project.image}</p>
-                        <p>Link: {project.link}</p>
-                        <p>Contributed by: {project.contributors}</p>
-                        <p>Progress: {project.progress}</p> 
-                    </>}
-                    
-                    {user && project.contributors.toLowerCase().includes(user.username.toLowerCase()) ? 
-                    // {user && project.contributors === user.username ? 
+                        <article>
+                            <h2 className='font-normal md:font-bold'>{project.title}</h2>
+                            <p>Date: {project.date? project.date :project.created_at.split(' ')[0]}</p>
+                            <p>Description: {project.description}</p> 
+                            <img src={project.image} alt={project.image} className='rounded-3xl'/>
+                            <a href={project.link} target='_blank' rel="noreferrer" class=' font-normal md:font-bold text-blue-800 visited:text-fuchsia-500'>Link: {project.link}</a>
+                            <p>Contributed by: {project.contributors}</p>
+                            <p>Progress: {project.progress}</p> 
+                        </article>
+
+                        <div className='text-2xl flex gap-4 py-3'>
+                            <AiFillLinkedin />
+                            <AiFillYoutube />
+                        </div>
+                </>}
+                    {user && project.contributors.split(',').filter(contributor => contributor === user.username).toString().trim() ? 
                         <>
                             {clickEdit ? 
                                 <></>
@@ -64,17 +70,16 @@ function ProjectDetails () {
                                     <button 
                                         type="button"
                                         onClick={handleEditClick}
-                                        className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" 
+                                        className="text-white bg-gradient-to-br from-blue-600 to-slate-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" 
                                     >Edit</button>
 
                                     <button 
                                         type="button"
                                         onClick={handleDelete}
-                                        className="text-white bg-gradient-to-br from-pink-500 to-orange-400 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-pink-200 dark:focus:ring-pink-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" 
+                                        className="text-white bg-gradient-to-br from-blue-600 to-slate-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2" 
                                     >Delete</button>
-                                </>}
-                        </> : ''}
-                </article>
+                            </>}
+                    </> : ''}
             </>
          )} 
        </div> 
