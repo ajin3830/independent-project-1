@@ -7,6 +7,7 @@ import {AiOutlineProject} from 'react-icons/ai';
 import {MdAccountCircle} from 'react-icons/md';
 import {FaSignOutAlt} from 'react-icons/fa';
 
+
 function Navbar ({ onLogout}) {
     const {user} = useContext(UserContext)
 

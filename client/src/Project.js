@@ -45,7 +45,10 @@ function Project() {
         // contributor + random number
         window.alert(`contributor ${contributor} modified to ${contributor}12345 as username for its new account, plz write down this temp password: ${contributor}4Password`)
         return `${contributor}12345`
-      } 
+      } else if(contributor.trim().length >= 5 && contributor !== user.username) {
+        window.alert(`Sccessfly created a new account for contributor ${contributor}! ${contributor} is the username, plz write down its temp password: ${contributor}4Password`)
+        return contributor
+      }
       return contributor
       
     })

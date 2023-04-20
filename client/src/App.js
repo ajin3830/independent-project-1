@@ -9,6 +9,7 @@ import NotFound from './NotFound'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import {useState, useEffect} from 'react'
 import { UserContext } from './UserContext'
+import MediaQuery from 'react-responsive'
 
 
 function App() {
@@ -35,6 +36,7 @@ function App() {
   }
 
   return (
+    // <MediaQuery minWidth={300}>
     <UserContext.Provider value={userContextValue}>
     <Router>
       <div className="App bg-yellow-100 min-h-screen">
@@ -83,6 +85,7 @@ function App() {
       </div>
     </Router>
     </UserContext.Provider>
+    // </MediaQuery>
   );
 }
 

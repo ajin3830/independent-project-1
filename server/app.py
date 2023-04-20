@@ -113,7 +113,7 @@ def projects():
                 # if len(contributors_list[i]) >= 4 and not User.query.filter_by(username=contributors_list[i]).first():
                     # db add and commit new user and give it temp password
                     new_user = User(username=contributors_list[i])
-                    new_user.password_hash = new_user.username + 'password'
+                    new_user.password_hash = new_user.username + '4Password'
 
                     db.session.add(new_user)
                     db.session.commit()
