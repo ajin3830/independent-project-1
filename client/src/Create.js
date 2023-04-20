@@ -1,8 +1,11 @@
-import {useState} from 'react'
+import {useState, useContext} from 'react'
 import {useNavigate} from "react-router-dom";
+import {IoMailOpenOutline} from 'react-icons/io5';
+import { UserContext } from './UserContext';
 
 // create a new blog
-function Create ({user}) {
+function Create () {
+    const {user} = useContext(UserContext)
 
     const [title, setTitle] = useState('')
     const [body, setBody] = useState('')
@@ -67,8 +70,8 @@ function Create ({user}) {
                             value={progress}
                             onChange={(e) => setProgress(e.target.value)}
                         >
-                            <option value='ongoing'>Ongoing</option>
-                            <option value='done'>Done</option>
+                            <option value='Ongoing'>Ongoing</option>
+                            <option value='Done'>Done</option>
                         </select>
                         {!loading && <button className="text-white bg-gradient-to-br from-blue-600 to-slate-900 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none font-medium rounded-lg text-sm px-5 py-2.5 text-center mr-2 mb-2"
                         >Add Blog</button>}
@@ -76,7 +79,10 @@ function Create ({user}) {
                     </form>
                 </>
                 : 
-                <h2>Log in to Add a New Blog</h2>
+                <>
+                    <h2 className='font-normal md:font-bold'>Log in to Add Blog</h2>
+                    <IoMailOpenOutline className='text-3xl'/>
+                </>
                 }
             </>
        </div> 

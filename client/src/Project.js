@@ -1,9 +1,13 @@
-import {useState} from 'react'
+import {useState, useContext} from 'react'
 import {useNavigate} from "react-router-dom";
+import {IoMailOpenOutline} from 'react-icons/io5';
+import { UserContext } from './UserContext';
+
 
 // create a new project
-function Project({user}) {
-
+function Project() {
+    const {user} = useContext(UserContext)
+    
     const [loading, setLoading] = useState(false)
     const [progress, setProgress] = useState('Ongoing')
 
@@ -161,9 +165,9 @@ function Project({user}) {
                 <label>Project progress:</label>
                 <select
                     onChange={(e) => setProgress(e.target.value)}>
-                    <option value='select'>Select</option>
-                    <option value='ongoing'>Ongoing</option>
-                    <option value='done'>Done</option>
+                    <option value='Select'>Select</option>
+                    <option value='Ongoing'>Ongoing</option>
+                    <option value='Done'>Done</option>
                 </select>
 
                 {!loading && 
@@ -174,7 +178,11 @@ function Project({user}) {
             </form>
         </>
         :
-        <h2>Log in to Add Project</h2>
+        <>
+        
+          <h2 className='font-normal md:font-bold'>Log in to Add Project</h2>
+          <IoMailOpenOutline className='text-3xl'/>
+        </>
       }
     </div>
   );

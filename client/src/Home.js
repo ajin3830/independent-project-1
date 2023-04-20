@@ -38,18 +38,21 @@ function Home () {
     }, [])
     
     const [searchText, setSearchText] = useState('');
-    // CAN ONLY SEARCH PROJECTS BC SEARCHING BOTH DONT WORK RIGHT
-    function searchAll() {
+
+    function searchProjects() {
+        if (searchText.length > 0) {
+            let searchedProjects =projects.filter((project) =>project.title.toLowerCase().includes(searchText.toLowerCase()))
+            return searchedProjects
+        } 
+        return projects
+    }
+
+    function searchBlogs() {
         if (searchText.length > 0) {
             let searchedBlogs = blogs.filter((blog)=>blog.title.toLowerCase().includes(searchText.toLowerCase()))
-            let searchedProjects =projects.filter((project) =>project.title.toLowerCase().includes(searchText.toLowerCase()))
-            // console.log(searchedBlogs)
-            // return searchedBlogs, searchedProjects
-            return searchedProjects
-        } else {
-            // return blogs, projects
-            return projects
-        }
+            return searchedBlogs
+        } 
+        return blogs
     }
     
     function handleSearch(input) {
@@ -64,11 +67,11 @@ function Home () {
             />
             {error && <div>{error}</div>}
             {loading && <div>Loading...</div>}
-            {blogs && <BlogList blogs={blogs} title='All Blogs'/>} 
-            {/* {blogs && <BlogList blogs={searchAll()} title='All Blogs'/>}  */}
+            {/* {blogs && <BlogList blogs={blogs} title='All Blogs'/>}  */}
+            {blogs && <BlogList blogs={searchBlogs()} title='All Blogs'/>} 
             
             {/* <ProjectList projects={projects} title='All Projects'/> */}
-            <ProjectList projects={searchAll()} title='All Projects'/> 
+            <ProjectList projects={searchProjects()} title='All Projects'/> 
 
         </div>
     )

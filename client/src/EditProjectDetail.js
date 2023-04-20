@@ -6,7 +6,7 @@ function EditProjectDetail({project, redirectHome}) {
 
   const {id} =useParams()
 
-  const [progress, setProgress] = useState('select')
+  const [progress, setProgress] = useState('Ongoing')
 
   const [editFormData, setEditFormData] = useState(project)
 
@@ -139,9 +139,9 @@ function EditProjectDetail({project, redirectHome}) {
                 <label>Project progress:</label>
                 <select
                     onChange={(e) => setProgress(e.target.value)}>
-                    <option value='select'>Select</option>
-                    <option value='ongoing'>Ongoing</option>
-                    <option value='done'>Done</option>
+                    <option value='Select'>Select</option>
+                    <option value='Ongoing'>Ongoing</option>
+                    <option value='Done'>Done</option>
                 </select>
 
                 <button 

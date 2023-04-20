@@ -29,15 +29,18 @@ function Account( {user, setUser} ) {
             <LoginForm user={user} setUser={setUser}/>
             <hr />
 
-            <p>Don't have an account? &nbsp;
-              <button color="secondary" onClick={() => setAccount(false)}>Sign Up</button>
+            <p className="font-normal md:font-bold">
+              Don't have an account? &nbsp;
+              <button color="secondary" onClick={() => setAccount(false)}>
+                Sign Up
+              </button>
             </p>
           </>
         ) :(
           <>
             <SignupForm user={user} setUser={setUser}/>
             <hr />
-            <p>
+            <p className="font-normal md:font-bold">
               Already have an account? &nbsp;
               <button color="secondary" onClick={() => setAccount(true)}>
                 Log In

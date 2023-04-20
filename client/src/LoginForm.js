@@ -74,7 +74,11 @@ function LoginForm({user, setUser, redirectAccount}) {
 
     return (
         <div>
-            <form onSubmit={formik.handleSubmit} style={{ margin: "30px" }}>
+            <form 
+                onSubmit={formik.handleSubmit} 
+                style={{ margin: "30px" }} 
+                className="font-normal md:font-bold"
+            >
                 <h1>Login</h1>
 
                 <label htmlFor="username">Username:</label>
