@@ -38,52 +38,52 @@ function App() {
   return (
     // <MediaQuery minWidth={300}>
     <UserContext.Provider value={userContextValue}>
-    <Router>
-      <div className="App bg-yellow-100 min-h-screen">
-        <Navbar onLogout={onLogout}/>
-        <div className='content'>
-          <Routes>
-            <Route 
-              exact
-              path="/"
-              element= {<Home />}
-            /> 
-            <Route 
-            // create a blog
-              exact
-              path="/create"
-              element= {<Create user={user} />}
-            /> 
-            <Route 
-              exact
-              path="/blogs/:id"
-              element= {<BlogDetails user={user} />}
-            /> 
-            <Route 
-            // create a project
-              exact
-              path="/project"
-              element= {<Project user={user} />}
-            /> 
-            <Route 
-              exact
-              path="/projects/:id"
-              element= {<ProjectDetails user={user} />}
-            /> 
-            <Route 
-              exact
-              path="/account"
-              element= {<Account user={user} setUser={setUser}/>}
-            /> 
-            <Route 
-              path="*"
-              element= {<NotFound />}
-            /> 
-          </Routes>
-          {/* <p>{Math.random() * 10}</p> */}
+      <Router>
+        <div className="App bg-yellow-100 min-h-screen min-w-fit">
+          <Navbar onLogout={onLogout}/>
+          <div className='content'>
+            <Routes>
+              <Route 
+                exact
+                path="/"
+                element= {<Home />}
+              /> 
+              <Route 
+              // create a blog
+                exact
+                path="/create"
+                element= {<Create user={user} />}
+              /> 
+              <Route 
+                exact
+                path="/blogs/:id"
+                element= {<BlogDetails user={user} />}
+              /> 
+              <Route 
+              // create a project
+                exact
+                path="/project"
+                element= {<Project user={user} />}
+              /> 
+              <Route 
+                exact
+                path="/projects/:id"
+                element= {<ProjectDetails user={user} />}
+              /> 
+              <Route 
+                exact
+                path="/account"
+                element= {<Account user={user} setUser={setUser}/>}
+              /> 
+              <Route 
+                path="*"
+                element= {<NotFound />}
+              /> 
+            </Routes>
+            {/* <p>{Math.random() * 10}</p> */}
+          </div>
         </div>
-      </div>
-    </Router>
+      </Router>
     </UserContext.Provider>
     // </MediaQuery>
   );
